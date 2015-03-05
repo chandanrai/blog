@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="publishedDate">#888888</color>
+    <color name="list_divider">#ffffff</color>
+    <color name="background">#4d9fd0</color>
+    <color name="text">#000000</color>
+</resources>
