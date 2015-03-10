@@ -3,6 +3,7 @@ package chandan.b2cloud_blog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ public class DetailActivity extends Activity {
         Intent intent = this.getIntent();
         if(intent!= null && intent.hasExtra(Intent.EXTRA_TEXT)) {
             mContent = intent.getStringExtra(Intent.EXTRA_TEXT);
-            ((TextView)findViewById(R.id.detail)).setText(mContent);
+            ((TextView)findViewById(R.id.detail)).setText(Html.fromHtml(mContent));
         }
     }
 

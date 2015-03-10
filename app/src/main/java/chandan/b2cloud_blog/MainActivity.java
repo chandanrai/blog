@@ -2,10 +2,15 @@ package chandan.b2cloud_blog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -16,31 +21,36 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import chandan.b2cloud_blog.adapter.CustomListAdapter;
+import chandan.b2cloud_blog.adapter.BlogListAdapter;
 import chandan.b2cloud_blog.webServices.model.BlogModel;
 import chandan.b2cloud_blog.webServices.parser.BlogParser;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
 
-    // Log tag
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String url = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=50&q=http://b2cloud.com.au/rss";
     private ProgressDialog pDialog;
     private List<BlogModel> blogList= new ArrayList<BlogModel>();
     private ListView listView;
-    private CustomListAdapter mAdapter;
+    private View mHeader;
+    private BlogListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
+        RequestQueue mRequestQueue = Networking.getInstance(this).getRequestQueue();
         listView = (ListView) findViewById(R.id.list);
-        mAdapter = new CustomListAdapter(this, blogList);
+        mAdapter = new BlogListAdapter(this, blogList);
+        mHeader = getLayoutInflater().inflate(R.layout.image, null);
+        listView.addHeaderView(mHeader);
         listView.setAdapter(mAdapter);
+        listView.setOnScrollListener(this);
+        listView.setOnItemClickListener(this);
 
         JsonObjectRequest requestBlog = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
@@ -54,24 +64,15 @@ public class MainActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hidePDialog();
             }
         });
 
-        AppController.getInstance().addToRequestQueue(requestBlog);
+        mRequestQueue.add(requestBlog);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hidePDialog();
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
     }
 
     @Override
@@ -81,4 +82,25 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if(firstVisibleItem == 0){
+            View firstView  = view.getChildAt(0);
+            if(firstView != null){
+                mHeader.findViewById(R.id.image).setTranslationY(-firstView.getTop()/2);
+            }
+
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        BlogModel blog = (BlogModel) listView.getItemAtPosition(position);
+        Intent detailIntent = new Intent(this,DetailActivity.class).putExtra(Intent.EXTRA_TEXT, blog.getContent());
+        startActivity(detailIntent);
+    }
 }

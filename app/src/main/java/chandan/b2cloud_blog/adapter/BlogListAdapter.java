@@ -14,15 +14,15 @@ import chandan.b2cloud_blog.R;
 import chandan.b2cloud_blog.webServices.model.BlogModel;
 
 
-public class CustomListAdapter extends BaseAdapter{
+public class BlogListAdapter extends BaseAdapter{
 
     private Activity activity;
     private LayoutInflater inflater;
     private List<BlogModel> blogs;
-    private static String AUTHOR = "Author";
+    private static String AUTHOR = "By";
     private static String COLON = ": ";
 
-    public CustomListAdapter(Activity activity, List<BlogModel> blogs) {
+    public BlogListAdapter(Activity activity, List<BlogModel> blogs) {
         this.activity = activity;
         this.blogs = blogs;
     }
@@ -33,7 +33,7 @@ public class CustomListAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int location) {
+    public BlogModel getItem(int location) {
         return blogs.get(location);
     }
 
@@ -43,22 +43,24 @@ public class CustomListAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 
         if (inflater == null)
             inflater = (LayoutInflater) activity
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.card_view, null);
+        if (view == null)
+            view = inflater.inflate(R.layout.card_view, null);
 
-        TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView author = (TextView) convertView.findViewById(R.id.author);
-        TextView publishedDate = (TextView) convertView.findViewById(R.id.publishedDate);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView author = (TextView) view.findViewById(R.id.author);
+        TextView publishedDate = (TextView) view.findViewById(R.id.publishedDate);
+        TextView content = (TextView) view.findViewById(R.id.content);
 
         BlogModel blog = blogs.get(position);
         title.setText(blog.getTitle());
         author.setText(AUTHOR+COLON+String.valueOf(blog.getAuthor()));
         publishedDate.setText(String.valueOf(blog.getPublishedDate()));
-        return convertView;
+        content.setText(String.valueOf(blog.getContent()));
+        return view;
     }
 }
