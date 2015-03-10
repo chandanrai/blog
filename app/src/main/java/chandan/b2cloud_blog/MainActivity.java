@@ -25,7 +25,9 @@ import chandan.b2cloud_blog.adapter.BlogListAdapter;
 import chandan.b2cloud_blog.webServices.model.BlogModel;
 import chandan.b2cloud_blog.webServices.parser.BlogParser;
 
-
+/*
+ *  Class handles the main activity pf the application
+ */
 public class MainActivity extends Activity implements AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
 
 
@@ -87,6 +89,10 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
 
     }
 
+    /*
+     *  Function get called on the the scroll event of the list view and
+     *  based on the scroll sets translation of the image header
+     */
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if(firstVisibleItem == 0){
             View firstView  = view.getChildAt(0);
@@ -97,6 +103,9 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
         }
     }
 
+    /*
+     *  Display the detail view of an item of the list view
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         BlogModel blog = (BlogModel) listView.getItemAtPosition(position);

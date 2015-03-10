@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
+/*
+ *  Class handles the detail view of a list view
+ */
 public class DetailActivity extends Activity {
 
     private String mContent = null;

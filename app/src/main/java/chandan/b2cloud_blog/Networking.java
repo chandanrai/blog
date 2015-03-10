@@ -4,6 +4,9 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+/*
+ *  Singleton class used to instantiate volley
+ */
 public class Networking {
 
     private static Networking mInstance;
@@ -13,6 +16,9 @@ public class Networking {
         mRequestQueue = Volley.newRequestQueue(context);
     }
 
+    /*
+     *  @return Instance of the class
+     */
     public static Networking getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new Networking(context);
@@ -20,6 +26,9 @@ public class Networking {
         return mInstance;
     }
 
+    /*
+     *  @return Returns the requestQueue
+     */
     public RequestQueue getRequestQueue() {
         return mRequestQueue;
     }

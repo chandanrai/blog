@@ -1,6 +1,8 @@
 package chandan.b2cloud_blog.webServices.model;
 
-
+/*
+ *  Represents the Blog model
+ */
 public class BlogModel {
     private String mTitle;
     private String mPublishedDate;
