@@ -14,16 +14,22 @@ import android.widget.TextView;
  */
 public class DetailActivity extends Activity {
 
+    private static final String TITLE = "title";
+    private static final String CONTENT = "content";
     private String mContent = null;
+    private String mTitle = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent intent = this.getIntent();
-        if(intent!= null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            mContent = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if(intent!= null && intent.hasExtra(TITLE) && intent.hasExtra(CONTENT)) {
+            mTitle = intent.getStringExtra(TITLE);
+            mContent = intent.getStringExtra(CONTENT);
             ((TextView)findViewById(R.id.detail)).setText(Html.fromHtml(mContent));
+            ((TextView)findViewById(R.id.title)).setText(Html.fromHtml(mTitle));
         }
     }
 

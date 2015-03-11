@@ -1,7 +1,6 @@
 package chandan.b2cloud_blog;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,10 +32,11 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String url = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=50&q=http://b2cloud.com.au/rss";
-    private ProgressDialog pDialog;
-    private List<BlogModel> blogList= new ArrayList<BlogModel>();
-    private ListView listView;
+    private static final String URL = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=50&q=http://b2cloud.com.au/rss";
+    private static final String TITLE = "title";
+    private static final String CONTENT = "content";
+    private List<BlogModel> mBlogList = new ArrayList<BlogModel>();
+    private ListView mListView;
     private View mHeader;
     private BlogListAdapter mAdapter;
 
@@ -46,20 +46,20 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
 
         setContentView(R.layout.activity_main);
         RequestQueue mRequestQueue = Networking.getInstance(this).getRequestQueue();
-        listView = (ListView) findViewById(R.id.list);
-        mAdapter = new BlogListAdapter(this, blogList);
+        mListView = (ListView) findViewById(R.id.list);
+        mAdapter = new BlogListAdapter(this, mBlogList);
         mHeader = getLayoutInflater().inflate(R.layout.image, null);
-        listView.addHeaderView(mHeader);
-        listView.setAdapter(mAdapter);
-        listView.setOnScrollListener(this);
-        listView.setOnItemClickListener(this);
+        mListView.addHeaderView(mHeader, null, false);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnScrollListener(this);
+        mListView.setOnItemClickListener(this);
 
-        JsonObjectRequest requestBlog = new JsonObjectRequest(url, null,
+        JsonObjectRequest requestBlog = new JsonObjectRequest(URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        BlogParser blogParser = new BlogParser();
-                        blogParser.parseResponse(response, blogList);
+                        BlogParser parser = new BlogParser();
+                        parser.parseResponse(response, mBlogList);
                         mAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
@@ -108,8 +108,11 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
      */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        BlogModel blog = (BlogModel) listView.getItemAtPosition(position);
-        Intent detailIntent = new Intent(this,DetailActivity.class).putExtra(Intent.EXTRA_TEXT, blog.getContent());
+        BlogModel blog = (BlogModel) mListView.getItemAtPosition(position);
+        Intent detailIntent = new Intent(this,DetailActivity.class);
+        detailIntent.putExtra(TITLE, blog.getTitle());
+        detailIntent.putExtra(CONTENT, blog.getContent());
         startActivity(detailIntent);
+
     }
 }

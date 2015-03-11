@@ -14,6 +14,8 @@ import java.util.List;
 import chandan.b2cloud_blog.R;
 import chandan.b2cloud_blog.webServices.model.BlogModel;
 
+import static android.text.TextUtils.substring;
+
 /*
  * Custom adapter view for inflating the list view
  */
@@ -65,8 +67,12 @@ public class BlogListAdapter extends BaseAdapter{
         BlogModel blog = mBlogs.get(position);
         title.setText(blog.getTitle());
         author.setText(AUTHOR+COLON+String.valueOf(blog.getAuthor()));
-        publishedDate.setText(String.valueOf(blog.getPublishedDate()));
+        publishedDate.setText(getDateComponent(String.valueOf(blog.getPublishedDate())));
         content.setText(Html.fromHtml(String.valueOf(blog.getContent())));
         return view;
+    }
+
+    private String getDateComponent(String date) {
+        return date.substring(5, 16);
     }
 }
