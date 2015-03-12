@@ -1,18 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lib="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:drawSelectorOnTop="true"/>
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingTop="@dimen/card_padding_vertical"
+        android:paddingBottom="@dimen/card_padding_vertical"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        lib:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="?colorPrimary"/>
+
 
 </RelativeLayout>

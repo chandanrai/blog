@@ -1,8 +1,6 @@
 package chandan.b2cloud_blog.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,32 +12,30 @@ import java.util.List;
 import chandan.b2cloud_blog.R;
 import chandan.b2cloud_blog.webServices.model.BlogModel;
 
-import static android.text.TextUtils.substring;
-
 /*
  * Custom adapter view for inflating the list view
  */
-public class BlogListAdapter extends BaseAdapter{
+public class BlogListAdapter extends BaseAdapter {
 
-    private Activity mActivity;
+    private Context mContext;
     private LayoutInflater mInflater;
-    private List<BlogModel> mBlogs;
+    private List<BlogModel> mBlogList;
     private static String AUTHOR = "By";
     private static String COLON = ": ";
 
-    public BlogListAdapter(Activity mActivity, List<BlogModel> mBlogs) {
-        this.mActivity = mActivity;
-        this.mBlogs = mBlogs;
+    public BlogListAdapter(Context context, List<BlogModel> mBlogs) {
+        this.mContext = context;
+        this.mBlogList = mBlogs;
     }
 
     @Override
     public int getCount() {
-        return mBlogs.size();
+        return mBlogList.size();
     }
 
     @Override
     public BlogModel getItem(int location) {
-        return mBlogs.get(location);
+        return mBlogList.get(location);
     }
 
     @Override
@@ -53,22 +49,22 @@ public class BlogListAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        if (mInflater == null)
-            mInflater = (LayoutInflater) mActivity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (view == null)
-            view = mInflater.inflate(R.layout.card_view, null);
+        if (view == null) {
+            mInflater = LayoutInflater.from(mContext);
+            view = mInflater.inflate(R.layout.card_view, parent, false);
+        }
 
         TextView title = (TextView) view.findViewById(R.id.title);
         TextView author = (TextView) view.findViewById(R.id.author);
         TextView publishedDate = (TextView) view.findViewById(R.id.publishedDate);
         TextView content = (TextView) view.findViewById(R.id.content);
 
-        BlogModel blog = mBlogs.get(position);
+        BlogModel blog = mBlogList.get(position);
         title.setText(blog.getTitle());
-        author.setText(AUTHOR+COLON+String.valueOf(blog.getAuthor()));
-        publishedDate.setText(getDateComponent(String.valueOf(blog.getPublishedDate())));
-        content.setText(Html.fromHtml(String.valueOf(blog.getContent())));
+        author.setText(AUTHOR + COLON + blog.getAuthor());
+        publishedDate.setText(getDateComponent(blog.getPublishedDate()));
+        content.setText(blog.getContent());
+
         return view;
     }
 

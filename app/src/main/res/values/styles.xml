@@ -1,12 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">@style/ActionBar</item>
-    </style>
-
-    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@android:color/white</item>
-        <item name="android:icon">@drawable/menu</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
     </style>
 
     <style name="TextAppearance.AppTheme.Caption.Subhead.Inverse" parent="TextAppearance.AppCompat.Subhead.Inverse">

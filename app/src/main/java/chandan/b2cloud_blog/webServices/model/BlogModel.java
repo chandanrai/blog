@@ -1,5 +1,8 @@
 package chandan.b2cloud_blog.webServices.model;
 
+import android.text.Html;
+import android.text.Spanned;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,23 +16,22 @@ public class BlogModel {
     private String mTitle;
     private String mPublishedDate;
     private String mAuthor;
+    private Spanned mContent;
 
-    public String getContent() {
+    public Spanned getContent() {
         return mContent;
     }
 
-    public void setContent(String mContent) {
-        this.mContent = mContent;
+    public void setContent(Spanned content) {
+       mContent = content;
     }
-
-    private String mContent;
 
     public String getTitle() {
         return mTitle;
     }
 
     public void setTitle(String title) {
-        this.mTitle = title;
+        mTitle = title;
     }
 
     public String getPublishedDate() {
@@ -37,7 +39,7 @@ public class BlogModel {
     }
 
     public void setPublishedDate(String publishedDate) {
-        this.mPublishedDate = publishedDate;
+        mPublishedDate = publishedDate;
     }
 
     public String getAuthor() {
@@ -45,7 +47,7 @@ public class BlogModel {
     }
 
     public void setAuthor(String author) {
-        this.mAuthor = author;
+        mAuthor = author;
     }
 
     /*
@@ -63,7 +65,7 @@ public class BlogModel {
                 this.setAuthor(blogObject.getString("author"));
                 this.setPublishedDate(blogObject.getString("publishedDate"));
                 this.setTitle(blogObject.getString("title"));
-                this.setContent(blogObject.getString("content"));
+                this.setContent(Html.fromHtml(blogObject.getString("content")));
 
                 blogList.add(this);
             }

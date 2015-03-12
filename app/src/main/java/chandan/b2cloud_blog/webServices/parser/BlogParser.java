@@ -1,5 +1,7 @@
 package chandan.b2cloud_blog.webServices.parser;
 
+import android.text.Html;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +27,7 @@ public class BlogParser {
                 blog.setAuthor(blogObject.getString("author"));
                 blog.setPublishedDate(blogObject.getString("publishedDate"));
                 blog.setTitle(blogObject.getString("title"));
-                blog.setContent(blogObject.getString("content"));
+                blog.setContent(Html.fromHtml(blogObject.getString("content")));
 
                 blogList.add(blog);
             }
